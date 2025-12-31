@@ -25,9 +25,9 @@ export async function getAllKudos(req: AuthRequest, res: Response) {
     sql += ' ORDER BY k.created_at DESC LIMIT ? OFFSET ?';
     params.push(limit, skip);
 
-    const results = await executeQuery(sql, params);
+    const results: any = await executeQuery(sql, params);
 
-    res.status(200).json({ kudos: results, total: results.length });
+    res.status(200).json({ kudos: Array.isArray(results) ? results : [], total: Array.isArray(results) ? results.length : 0 });
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch kudos' });
   }
@@ -45,7 +45,7 @@ export async function hideKudos(req: AuthRequest, res: Response) {
       [id]
     );
 
-    if (!kudosCheck || kudosCheck.length === 0) {
+    if (!kudosCheck || !Array.isArray(kudosCheck) || kudosCheck.length === 0) {
       return res.status(404).json({ error: 'Kudos not found' });
     }
 
@@ -79,7 +79,7 @@ export async function deleteKudos(req: AuthRequest, res: Response) {
       [id]
     );
 
-    if (!kudosCheck || kudosCheck.length === 0) {
+    if (!kudosCheck || !Array.isArray(kudosCheck) || kudosCheck.length === 0) {
       return res.status(404).json({ error: 'Kudos not found' });
     }
 
@@ -112,9 +112,9 @@ export async function getModerationLogs(req: AuthRequest, res: Response) {
       LIMIT ? OFFSET ?
     `;
 
-    const results = await executeQuery(sql, [limit, skip]);
+    const results: any = await executeQuery(sql, [limit, skip]);
 
-    res.status(200).json({ logs: results, total: results.length });
+    res.status(200).json({ logs: Array.isArray(results) ? results : [], total: Array.isArray(results) ? results.length : 0 });
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch moderation logs' });
   }

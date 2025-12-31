@@ -1,4 +1,4 @@
-import { Response } from 'express';
+import { Request, Response } from 'express';
 import { executeQuery } from '../database/connection';
 import { AuthRequest } from '../middleware/auth.middleware';
 
@@ -26,7 +26,7 @@ export async function createKudos(req: AuthRequest, res: Response) {
       [recipient_id]
     );
 
-    if (!recipientCheck || recipientCheck.length === 0) {
+    if (!recipientCheck || !Array.isArray(recipientCheck) || recipientCheck.length === 0) {
       return res.status(404).json({ error: 'Recipient not found' });
     }
 
@@ -36,7 +36,7 @@ export async function createKudos(req: AuthRequest, res: Response) {
       [giver_id, recipient_id]
     );
 
-    if (duplicateCheck && duplicateCheck.length > 0) {
+    if (duplicateCheck && Array.isArray(duplicateCheck) && duplicateCheck.length > 0) {
       return res.status(429).json({ error: 'You can only give one kudos per hour to the same person' });
     }
 
@@ -58,7 +58,7 @@ export async function createKudos(req: AuthRequest, res: Response) {
   }
 }
 
-export async function getKudosFeed(req: Response, res: any) {
+export async function getKudosFeed(req: Request, res: Response) {
   try {
     const skip = parseInt(req.query.skip as string) || 0;
     const limit = Math.min(parseInt(req.query.limit as string) || 20, 100);
@@ -83,15 +83,15 @@ export async function getKudosFeed(req: Response, res: any) {
     sql += ' ORDER BY k.created_at DESC LIMIT ? OFFSET ?';
     params.push(limit, skip);
 
-    const results = await executeQuery(sql, params);
+    const results: any = await executeQuery(sql, params);
 
-    res.status(200).json({ kudos: results, total: results.length });
+    res.status(200).json({ kudos: Array.isArray(results) ? results : [], total: Array.isArray(results) ? results.length : 0 });
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch kudos feed' });
   }
 }
 
-export async function getKudosById(req: Response, res: any) {
+export async function getKudosById(req: Request, res: Response) {
   try {
     const { id } = req.params;
 
@@ -104,7 +104,7 @@ export async function getKudosById(req: Response, res: any) {
       [id]
     );
 
-    if (!results || results.length === 0) {
+    if (!results || !Array.isArray(results) || results.length === 0) {
       return res.status(404).json({ error: 'Kudos not found' });
     }
 

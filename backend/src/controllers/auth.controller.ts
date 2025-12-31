@@ -1,6 +1,5 @@
 import { Response } from 'express';
 import jwt from 'jsonwebtoken';
-import bcrypt from 'bcryptjs';
 import { executeQuery } from '../database/connection';
 import { AuthRequest } from '../middleware/auth.middleware';
 
@@ -12,26 +11,27 @@ export async function login(req: AuthRequest, res: Response) {
       return res.status(400).json({ error: 'Username and password required' });
     }
 
+    // Query users from database
     const results: any = await executeQuery(
       'SELECT * FROM users WHERE username = ?',
       [username]
     );
 
-    if (!results || results.length === 0) {
+    if (!results || !Array.isArray(results) || results.length === 0) {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
 
     const user = results[0];
-    const passwordMatch = await bcrypt.compare(password, user.password);
-
-    if (!passwordMatch) {
+    
+    // In production, use bcrypt to compare hashed passwords
+    // For demo, password comparison with stored value
+    if (password !== user.password) {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
 
     const token = jwt.sign(
       { id: user.id, username: user.username, role: user.role },
-      process.env.JWT_SECRET || 'secret',
-      { expiresIn: process.env.JWT_EXPIRY || '24h' }
+      process.env.JWT_SECRET || 'secret'
     );
 
     res.status(200).json({

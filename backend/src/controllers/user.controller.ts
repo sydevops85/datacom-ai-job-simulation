@@ -19,9 +19,9 @@ export async function getUsers(req: AuthRequest, res: Response) {
     sql += ' LIMIT ? OFFSET ?';
     params.push(limit, skip);
 
-    const results = await executeQuery(sql, params);
+    const results: any = await executeQuery(sql, params);
 
-    res.status(200).json({ users: results, total: results.length });
+    res.status(200).json({ users: Array.isArray(results) ? results : [], total: Array.isArray(results) ? results.length : 0 });
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch users' });
   }
