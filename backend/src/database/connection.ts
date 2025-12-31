@@ -1,11 +1,12 @@
 // Mock database for demo purposes
 // NOTE: In production, replace with actual database connection
 // Passwords should be hashed using bcrypt before storing
+// All user data below is synthetic and for demonstration only
 const mockUsers = [
-  { id: 1, username: 'user1', email: 'user1@example.com', password: 'hashed_password_1', first_name: 'User', last_name: 'One', role: 'user', is_active: true },
-  { id: 2, username: 'admin', email: 'admin@example.com', password: 'hashed_password_2', first_name: 'Admin', last_name: 'User', role: 'admin', is_active: true },
-  { id: 3, username: 'user2', email: 'user2@example.com', password: 'hashed_password_3', first_name: 'User', last_name: 'Two', role: 'user', is_active: true },
-  { id: 4, username: 'user3', email: 'user3@example.com', password: 'hashed_password_4', first_name: 'User', last_name: 'Three', role: 'user', is_active: true },
+  { id: 1, username: 'user_account_1', email: 'email1@internal.local', password: 'hashed_pwd', first_name: 'Employee', last_name: 'One', role: 'user', is_active: true },
+  { id: 2, username: 'user_account_2', email: 'email2@internal.local', password: 'hashed_pwd', first_name: 'Employee', last_name: 'Two', role: 'admin', is_active: true },
+  { id: 3, username: 'user_account_3', email: 'email3@internal.local', password: 'hashed_pwd', first_name: 'Employee', last_name: 'Three', role: 'user', is_active: true },
+  { id: 4, username: 'user_account_4', email: 'email4@internal.local', password: 'hashed_pwd', first_name: 'Employee', last_name: 'Four', role: 'user', is_active: true },
 ];
 
 const mockKudos: any[] = [];

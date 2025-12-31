@@ -6,10 +6,10 @@ A comprehensive feature for an internal employee portal that enables employees t
 
 ```
 .
-├── backend/              # Node.js + Express API server
-├── frontend/            # React TypeScript frontend
-├── docs/               # Documentation
-└── SPECIFICATION.md    # Complete specification document
+ backend/              # Node.js + Express API server
+ frontend/            # React TypeScript frontend
+ docs/               # Documentation
+ SPECIFICATION.md    # Complete specification document
 ```
 
 ## Features
@@ -26,7 +26,7 @@ A comprehensive feature for an internal employee portal that enables employees t
 ### Backend
 - Node.js with Express
 - TypeScript
-- MySQL for database
+- MySQL or compatible database
 - JWT for authentication
 - bcrypt for password hashing
 
@@ -40,7 +40,7 @@ A comprehensive feature for an internal employee portal that enables employees t
 
 ### Prerequisites
 - Node.js 16+
-- MySQL 8.0+
+- Database (MySQL 8.0+)
 - npm or yarn
 
 ### Backend Setup
@@ -51,8 +51,9 @@ cd backend
 # Install dependencies
 npm install
 
-# Configure environment variables
+# Configure environment variables (see backend/.env.example)
 cp .env.example .env
+#  Edit .env with your actual database credentials and JWT secret
 
 # Run database migrations
 npm run migrate
@@ -61,7 +62,7 @@ npm run migrate
 npm run dev
 ```
 
-The API will be available at `http://localhost:3000`
+The API will be available at the configured URL (see documentation for details)
 
 ### Frontend Setup
 
@@ -71,14 +72,15 @@ cd frontend
 # Install dependencies
 npm install
 
-# Configure environment variables
+# Configure environment variables (see frontend/.env.example)
 cp .env.example .env
+#  Update REACT_APP_API_URL to match your backend URL
 
 # Start development server
 npm start
 ```
 
-The application will open at `http://localhost:3000`
+The application will open in your browser (see documentation for details)
 
 ## API Documentation
 
@@ -135,13 +137,15 @@ TypeScript is configured with strict mode enabled. The project uses ESLint (conf
 
 ### Production Checklist
 
-- [ ] Environment variables configured
+- [ ] Environment variables configured securely
 - [ ] Database migrations completed
-- [ ] JWT secret configured securely
-- [ ] CORS origins configured
+- [ ] JWT secret configured with strong random value
+- [ ] CORS origins configured for your domain
 - [ ] SSL/TLS certificates installed
 - [ ] Rate limiting configured
 - [ ] Monitoring and logging configured
+- [ ] Security headers enabled
+- [ ] Regular security audits scheduled
 
 ## Architecture Decisions
 
@@ -151,6 +155,15 @@ The system follows a spec-driven development approach with clear separation of c
 2. **Frontend**: Component-based React application with client-side routing
 3. **Database**: Normalized schema with proper indexing for performance
 4. **Security**: JWT authentication, password hashing, SQL injection prevention
+
+## Security
+
+ **IMPORTANT**: Please review [SECURITY.md](./SECURITY.md) for comprehensive security guidelines including:
+- Environment variable configuration
+- Password security best practices
+- JWT token management
+- Database security
+- Deployment security checklist
 
 ## Contributing
 
@@ -166,4 +179,5 @@ MIT
 
 ## Support
 
-For issues or questions, please refer to the project documentation or contact the development team.
+For security issues, please refer to [SECURITY.md](./SECURITY.md).
+For other issues or questions, please refer to the project documentation.
