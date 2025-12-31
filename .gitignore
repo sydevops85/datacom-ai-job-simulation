@@ -1,0 +1,15 @@
+# Global .gitignore
+node_modules/
+.env
+.env.local
+*.log
+.DS_Store
+.vscode/
+.idea/
+dist/
+build/
+coverage/
+.nyc_output/
+*.swp
+*.swo
+*~
